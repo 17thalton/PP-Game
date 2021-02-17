@@ -1,0 +1,50 @@
+{
+	"planet_names": [
+		"Earth", "Mars", "Jupiter", "Saturn", "Venus", "Mercury", "Neptune", "Uranus"
+	],
+
+	"planet_types": {
+		"Gas giant": {"weight": 1, "primary_resources": {
+			"hydrogen": {"mass": 80},
+			"helium": {"mass": 20},
+		}, "comment": "https://en.wikipedia.org/wiki/Gas_giant"},
+		"Ice giant": {"weight": 1, "primary_resources": {
+			"hydrogen": {"mass": 10},
+			"helium": {"mass": 10},
+			"oxygen": {"mass": 20},
+			"water": {"mass": 20},
+			"nitrogen": {"mass": 20},
+			"carbon": {"mass": 20},
+		}, "comment": "https://en.wikipedia.org/wiki/Ice_giant#Characteristics"},
+		"Ocean planet": {"weight": 1, "primary_resources": {
+			"water": {"mass": 75},
+			"placeholder": {"mass": 25}
+		}, "comment": "https://en.wikipedia.org/wiki/Ocean_world"},
+	},
+	
+	"_planet_types": {
+		"Carbon planet": {"weight": 1},
+		"Coreless planet": {"weight": 1},
+		"Desert planet": {"weight": 1},
+		"Gas dwarf": {"weight": 1},
+		"Helium planet": {"weight": 1},
+		"Ice planet": {"weight": 1},
+		"Iron planet": {"weight": 1},
+		"Lava planet": {"weight": 1},
+
+		"Terrestrial planet": {"weight": 1}
+	},
+
+	"planet_amount_range": {
+		"easy": [4, 6],
+		"normal": [5, 7],
+		"hard": [6, 8]
+	},
+	
+	"primary_resource_amount_range": {
+		"easy": [1, 2],
+		"normal": [2, 3],
+		"hard": [3, 4]
+	}
+	
+}
