@@ -1,0 +1,82 @@
+{
+	"p_names": [
+		"Earth", "Mars", "Jupiter", "Saturn", "Venus", "Mercury", "Neptune", "Uranus"
+	],
+
+	"p_types": {
+		
+		"Gas giant": {"weight": 1, "sprites": ["gas giant 2"], "names": [], "resources": {
+			"hydrogen": {"weight": 10},
+			"helium": {"weight": 10},
+			"ammonia": {"weight": 1},
+			"methane": {"weight": 5}
+		}, "source": "https://www.space.com/30372-gas-giants.html"},
+		
+		"Gas planet": {"weight": 1, "sprites": ["gas giant 1"], "names": [], "resources": {
+			"hydrogen": {"weight": 10},
+			"helium": {"weight": 10},
+			"ammonia": {"weight": 1},
+			"methane": {"weight": 5}
+		}, "source": "https://www.space.com/30372-gas-giants.html"},
+		
+		"Ice giant": {"weight": 1, "sprites": ["ice world"], "names": [], "resources": {
+			"hydrogen": {"weight": 15},
+			"helium": {"weight": 15},
+			"oxygen": {"weight": 5},
+			"water": {"weight": 4},
+			"nitrogen": {"weight": 5},
+			"carbon": {"weight": 6},
+		}, "source": "https://en.wikipedia.org/wiki/Ice_giant#Characteristics"},
+		
+		"Ocean planet": {"weight": 1, "sprites": ["islands"], "names": [], "resources": {
+			"water": {"weight": 75},
+		}, "source": "https://en.wikipedia.org/wiki/Ocean_world"},
+		
+		"Desert planet": {"weight": 1, "sprites": ["terran dry"], "names": [], "resources": {
+			"water": {"weight": 75},
+		}, "source": "https://en.wikipedia.org/wiki/Ocean_world"},
+		
+		"Lava planet": {"weight": 1, "sprites": ["lava world"], "names": [], "resources": {
+			"water": {"weight": 75},
+		}, "source": "https://en.wikipedia.org/wiki/Ocean_world"},
+		
+		"Terrestrial planet": {"weight": 1, "sprites": ["terran wet"], "names": [], "resources": {
+			"water": {"weight": 75},
+		}, "source": "https://en.wikipedia.org/wiki/Ocean_world"},
+		
+	},
+	
+	"resources": {
+		"hydrogen": {"formula": "H"},
+		"helium": {"formula": "He"},
+		"ammonia": {"formula": "NH3"},
+		"methane": {"formula": "CH₄"},
+		"oxygen": {"formula": "O"},
+		"water": {"formula": "H2O"},
+		"nitrogen": {"formula": "N"},
+		"carbon": {"formula": "C"},
+		"sulfur": {"formula": "S"}
+	},
+	
+	"_planet_types": {
+		"Carbon planet": {"weight": 1},
+		"Coreless planet": {"weight": 1},
+		"Gas dwarf": {"weight": 1},
+		"Helium planet": {"weight": 1},
+		"Ice planet": {"weight": 1},
+		"Iron planet": {"weight": 1},
+	},
+
+	"p_amount_range": {
+		"hard": [4, 6],
+		"normal": [5, 7],
+		"easy": [6, 6]
+	},
+	
+	"resource_amount_range": {
+		"hard": [1, 2],
+		"normal": [2, 3],
+		"easy": [3, 4]
+	}
+	
+}

@@ -8,24 +8,108 @@
 
 config_version=4
 
-_global_script_classes=[  ]
+_global_script_classes=[ {
+"base": "Resource",
+"class": "LocalizationData",
+"language": "GDScript",
+"path": "res://addons/localization_editor/model/LocalizationData.gd"
+}, {
+"base": "Reference",
+"class": "LocalizationManagerKeys",
+"language": "GDScript",
+"path": "res://addons/localization_editor/LocalizationManagerKeys.gd"
+}, {
+"base": "Reference",
+"class": "LocalizationManagerPlaceholders",
+"language": "GDScript",
+"path": "res://addons/localization_editor/LocalizationManagerPlaceholders.gd"
+} ]
 _global_script_class_icons={
-
+"LocalizationData": "",
+"LocalizationManagerKeys": "",
+"LocalizationManagerPlaceholders": ""
 }
 
 [application]
 
 config/name="PP Game"
 run/main_scene="res://Scenes/Menus/mainMenu.tscn"
+config/project_settings_override="user://settings_override.godot"
 config/icon="res://icon.png"
+config/quit_on_go_back=false
+run/thread_model=2
+
+[audio]
+
+driver=""
+
+[autoload]
+
+Global="*res://Scripts/GLOBAL.gd"
+
+[debug]
+
+gdscript/warnings/return_value_discarded=false
 
 [display]
 
-window/size/width=1280
-window/size/height=720
+window/size/width=960
+window/size/height=540
+window/dpi/allow_hidpi=true
+window/vsync/use_vsync=false
 window/stretch/mode="2d"
-window/stretch/aspect="keep"
+window/stretch/aspect="expand"
+
+[editor_plugins]
+
+enabled=PoolStringArray( "localization_editor" )
+
+[gui]
+
+theme/custom_font="res://Assets/Fonts/Noto Sans JP/NotoSansJP.tres"
+
+[input]
+
+toggle_fullscreen={
+"deadzone": 0.5,
+"events": [ Object(InputEventKey,"resource_local_to_scene":false,"resource_name":"","device":0,"alt":false,"shift":false,"control":false,"meta":false,"command":false,"pressed":false,"scancode":16777254,"unicode":0,"echo":false,"script":null)
+ ]
+}
+lmb={
+"deadzone": 0.5,
+"events": [  ]
+}
+toggle_mouse_capture={
+"deadzone": 0.5,
+"events": [ Object(InputEventKey,"resource_local_to_scene":false,"resource_name":"","device":0,"alt":false,"shift":false,"control":false,"meta":false,"command":false,"pressed":false,"scancode":16777255,"unicode":0,"echo":false,"script":null)
+ ]
+}
+
+[locale]
+
+translations=PoolStringArray( "res://Localisations/Localisation.en.translation", "res://Localisations/Localisation.ja.translation", "res://Localisations/Localisation.ja_JP.translation" )
+locale_filter=[ 0, [ "en", "ja" ] ]
+
+[localization_editor]
+
+locales_path_to_file="res://Localisations/Localisation.csv"
+
+[logging]
+
+file_logging/enable_file_logging=true
+
+[physics]
+
+2d/thread_model=2
 
 [rendering]
 
+quality/driver/fallback_to_gles2=true
+quality/intended_usage/framebuffer_allocation=0
+quality/intended_usage/framebuffer_allocation.mobile=0
+quality/2d/use_pixel_snap=true
+threads/thread_model=2
+vram_compression/import_etc=true
+quality/filters/use_nearest_mipmap_filter=true
+quality/depth/hdr=false
 environment/default_environment="res://default_env.tres"

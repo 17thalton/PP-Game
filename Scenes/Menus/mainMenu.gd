@@ -1,13 +1,22 @@
 extends Control
 
-# https://www.youtube.com/watch?v=LdHKs2Foon0&list=PLI95OAGEsXs8_5_OrBpZylMFp4xuEVleL&index=2
-# Declare member variables here. Examples:
-# var a = 2
-# var b = "text"
-
+export var quickstart: Dictionary = {
+	"is_quickstart": false,
+	"difficulty": "normal",
+	"seed": 0,
+	"world_name": "QUICKSTART WORLD",
+	"random_seed": false,
+}
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
+	
+	if quickstart["is_quickstart"]:
+		Global.quickstart = quickstart
+		btnNewGame()
+		
+	Global.active_camera = $Camera2D
+	Global.correct_camera()
 	
 	# Connect functions to menu buttons
 	$btn_new.connect("pressed", self, "btnNewGame")

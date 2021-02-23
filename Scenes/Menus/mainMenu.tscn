@@ -9,6 +9,13 @@ script = ExtResource( 1 )
 __meta__ = {
 "_edit_use_anchors_": false
 }
+quickstart = {
+"difficulty": "easy",
+"is_quickstart": true,
+"random_seed": true,
+"seed": 0,
+"world_name": "QUICKSTART WORLD"
+}
 
 [node name="label_title" type="Label" parent="."]
 anchor_right = 1.0
@@ -56,3 +63,6 @@ margin_top = 568.0
 margin_right = 422.556
 margin_bottom = 618.0
 text = "Exit"
+
+[node name="Camera2D" type="Camera2D" parent="."]
+current = true
