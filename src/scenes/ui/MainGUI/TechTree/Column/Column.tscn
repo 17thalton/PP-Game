@@ -1,0 +1,63 @@
+[gd_scene load_steps=3 format=2]
+
+[ext_resource path="res://src/scenes/ui/MainGUI/TechTree/Column/Column.gd" type="Script" id=1]
+
+[sub_resource type="StyleBoxFlat" id=1]
+bg_color = Color( 0.372549, 0.372549, 0.372549, 0.635294 )
+corner_detail = 20
+anti_aliasing = false
+anti_aliasing_size = 5
+
+[node name="Column" type="Control"]
+size_flags_horizontal = 15
+size_flags_vertical = 15
+script = ExtResource( 1 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="ScrollContainer" type="ScrollContainer" parent="."]
+margin_top = 48.0
+margin_right = 200.0
+margin_bottom = 832.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Container" type="VBoxContainer" parent="ScrollContainer"]
+margin_right = 200.0
+margin_bottom = 784.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+custom_constants/separation = 20
+
+[node name="ItemTemplate" type="Button" parent="ScrollContainer/Container"]
+margin_right = 200.0
+margin_bottom = 784.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+custom_styles/hover = SubResource( 1 )
+custom_styles/pressed = SubResource( 1 )
+custom_styles/focus = SubResource( 1 )
+custom_styles/disabled = SubResource( 1 )
+custom_styles/normal = SubResource( 1 )
+custom_colors/font_color_disabled = Color( 0, 0, 0, 1 )
+custom_colors/font_color = Color( 0, 0, 0, 1 )
+custom_colors/font_color_hover = Color( 0, 0, 0, 1 )
+custom_colors/font_color_pressed = Color( 0, 0, 0, 1 )
+text = "text"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Title" type="RichTextLabel" parent="."]
+margin_top = 8.0
+margin_right = 160.0
+margin_bottom = 48.0
+rect_scale = Vector2( 1.25, 1.25 )
+bbcode_enabled = true
+bbcode_text = "[center]Column title[/center]"
+text = "Column title"
+__meta__ = {
+"_edit_use_anchors_": false
+}

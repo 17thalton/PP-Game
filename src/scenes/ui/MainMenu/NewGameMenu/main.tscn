@@ -1,0 +1,178 @@
+[gd_scene load_steps=3 format=2]
+
+[ext_resource path="res://src/scenes/ui/MainMenu/NewGameMenu/main.gd" type="Script" id=1]
+[ext_resource path="res://src/scripts/SolarSystem/SolarSystem.gd" type="Script" id=2]
+
+[node name="Main" type="Control"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+script = ExtResource( 1 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="label_title" type="Label" parent="."]
+anchor_right = 1.0
+anchor_bottom = 0.1
+text = "Create new solar system"
+align = 1
+valign = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="text_name" type="Node2D" parent="."]
+position = Vector2( 80, 160 )
+scale = Vector2( 1.2, 1.2 )
+
+[node name="text" type="TextEdit" parent="text_name"]
+margin_right = 230.0
+margin_bottom = 40.0
+wrap_enabled = true
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="label" type="Label" parent="text_name"]
+margin_top = -16.0
+margin_right = 140.0
+margin_bottom = -2.0
+text = "Name of solar system"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="error" type="Label" parent="text_name"]
+margin_top = 48.0
+margin_right = 40.0
+margin_bottom = 62.0
+custom_colors/font_color = Color( 1, 0, 0, 1 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="text_seed" type="Node2D" parent="."]
+position = Vector2( 432, 160 )
+scale = Vector2( 1.2, 1.2 )
+
+[node name="text" type="TextEdit" parent="text_seed"]
+margin_right = 230.0
+margin_bottom = 40.0
+wrap_enabled = true
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="label" type="Label" parent="text_seed"]
+margin_top = -16.0
+margin_right = 140.0
+margin_bottom = -2.0
+text = "Seed used for generation"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="error" type="Label" parent="text_seed"]
+margin_top = 46.6667
+margin_right = 40.0
+margin_bottom = 60.6667
+custom_colors/font_color = Color( 1, 0, 0, 1 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="random" type="CheckBox" parent="text_seed"]
+margin_left = 233.333
+margin_top = 6.66667
+margin_right = 348.333
+margin_bottom = 30.6667
+text = "Random seed"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="button_create" type="Node2D" parent="."]
+position = Vector2( 928, 440 )
+scale = Vector2( 1.2, 1.2 )
+
+[node name="button" type="Button" parent="button_create"]
+margin_right = 150.0
+margin_bottom = 20.0
+text = "Create"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="label" type="Label" parent="button_create"]
+margin_top = -16.0
+margin_right = 140.0
+margin_bottom = -2.0
+text = "Create solar system"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="error" type="Label" parent="button_create"]
+margin_top = 26.6667
+margin_right = 40.0
+margin_bottom = 40.6667
+custom_colors/font_color = Color( 1, 0, 0, 1 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="choice_difficulty" type="Node2D" parent="."]
+position = Vector2( 80, 312 )
+scale = Vector2( 1.2, 1.2 )
+
+[node name="hard" type="CheckBox" parent="choice_difficulty"]
+margin_right = 24.0
+margin_bottom = 24.0
+text = "Hard"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="normal" type="CheckBox" parent="choice_difficulty"]
+margin_top = 24.0
+margin_right = 75.0
+margin_bottom = 48.0
+text = "Normal"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="easy" type="CheckBox" parent="choice_difficulty"]
+margin_top = 48.0
+margin_right = 56.0
+margin_bottom = 72.0
+text = "Easy"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="label" type="Label" parent="choice_difficulty"]
+margin_top = -16.0
+margin_right = 140.0
+margin_bottom = -2.0
+text = "Difficulty"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="error" type="Label" parent="choice_difficulty"]
+margin_top = 80.0
+margin_right = 40.0
+margin_bottom = 94.0
+custom_colors/font_color = Color( 1, 0, 0, 1 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="WorldGenerator" type="Node2D" parent="."]
+visible = false
+script = ExtResource( 2 )
+
+[node name="Camera2D" type="Camera2D" parent="."]
+offset = Vector2( 960, 540 )
+current = true

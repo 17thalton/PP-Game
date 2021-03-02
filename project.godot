@@ -33,8 +33,7 @@ _global_script_class_icons={
 [application]
 
 config/name="PP Game"
-run/main_scene="res://Scenes/Menus/mainMenu.tscn"
-config/project_settings_override="user://settings_override.godot"
+run/main_scene="res://src/scenes/ui/MainMenu/mainMenu.tscn"
 config/icon="res://icon.png"
 config/quit_on_go_back=false
 run/thread_model=2
@@ -45,7 +44,7 @@ driver=""
 
 [autoload]
 
-Global="*res://Scripts/GLOBAL.gd"
+Global="*res://src/scripts/GLOBAL.gd"
 
 [debug]
 
@@ -58,7 +57,7 @@ window/size/height=540
 window/dpi/allow_hidpi=true
 window/vsync/use_vsync=false
 window/stretch/mode="2d"
-window/stretch/aspect="expand"
+window/stretch/aspect="keep"
 
 [editor_plugins]
 
@@ -66,7 +65,7 @@ enabled=PoolStringArray( "localization_editor" )
 
 [gui]
 
-theme/custom_font="res://Assets/Fonts/Noto Sans JP/NotoSansJP.tres"
+theme/custom_font="res://assets/Fonts/Noto Sans JP/NotoSansJP.tres"
 
 [input]
 
@@ -75,24 +74,25 @@ toggle_fullscreen={
 "events": [ Object(InputEventKey,"resource_local_to_scene":false,"resource_name":"","device":0,"alt":false,"shift":false,"control":false,"meta":false,"command":false,"pressed":false,"scancode":16777254,"unicode":0,"echo":false,"script":null)
  ]
 }
-lmb={
-"deadzone": 0.5,
-"events": [  ]
-}
 toggle_mouse_capture={
 "deadzone": 0.5,
 "events": [ Object(InputEventKey,"resource_local_to_scene":false,"resource_name":"","device":0,"alt":false,"shift":false,"control":false,"meta":false,"command":false,"pressed":false,"scancode":16777255,"unicode":0,"echo":false,"script":null)
  ]
 }
+toggle_solarsystem_view={
+"deadzone": 0.5,
+"events": [ Object(InputEventKey,"resource_local_to_scene":false,"resource_name":"","device":0,"alt":false,"shift":false,"control":false,"meta":false,"command":false,"pressed":false,"scancode":32,"unicode":0,"echo":false,"script":null)
+ ]
+}
 
 [locale]
 
-translations=PoolStringArray( "res://Localisations/Localisation.en.translation", "res://Localisations/Localisation.ja.translation", "res://Localisations/Localisation.ja_JP.translation" )
+translations=PoolStringArray( "res://locales/locales.en.translation", "res://locales/locales.ja.translation", "res://locales/locales.ja_JP.translation" )
 locale_filter=[ 0, [ "en", "ja" ] ]
 
 [localization_editor]
 
-locales_path_to_file="res://Localisations/Localisation.csv"
+locales_path_to_file="res://locales/locales.csv"
 
 [logging]
 

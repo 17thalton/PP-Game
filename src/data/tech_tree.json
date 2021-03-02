@@ -1,0 +1,11 @@
+{
+	"columns": {
+		"transportation": [
+			"TEST", "TEST2", "test3", "4", "5"
+		],
+		
+		"storage": [
+			"TEST", "TEST2", "test3", "4", "5"
+		]
+	}
+}
