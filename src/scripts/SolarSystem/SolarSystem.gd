@@ -8,6 +8,9 @@ var sun
 var rng: RandomNumberGenerator
 var starting_planet: Node2D
 
+var developed_technology: Array = []
+var undeployed_technology: Array = []
+
 var resources = {}
 var resource_cap: int
 

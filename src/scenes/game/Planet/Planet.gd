@@ -3,6 +3,7 @@ extends Node
 var type: String
 var sd: int
 var resources: Array = []
+var resource_harvesters: Dictionary = {}
 
 var sprite = null
 

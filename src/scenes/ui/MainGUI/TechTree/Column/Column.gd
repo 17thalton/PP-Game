@@ -13,7 +13,17 @@ func populate(items: Array, title: String):
 	
 	for item in items:
 		var new_item = $ScrollContainer/Container/ItemTemplate.duplicate()
-		new_item.text = str(item)
+		new_item.get_node("Text").rect_size = new_item.rect_size
+		new_item.get_node("Text").rect_size.x -= 4
+		new_item.get_node("Text").rect_position.x += 2
+		new_item.get_node("Text").bbcode_text = item["text"].replace('"', '"')
+		if item["centre"]:
+			new_item.get_node("Text").bbcode_text = "[center]" + new_item.get_node("Text").bbcode_text + "[/center]"
 		$ScrollContainer/Container.add_child(new_item)
+		
+		new_item.connect("pressed", self, "technology_pressed", [item, title])
 
 	$ScrollContainer/Container/ItemTemplate.queue_free()
+
+func technology_pressed(item: Dictionary, title):
+	get_parent().get_parent().technology_pressed(title, item)

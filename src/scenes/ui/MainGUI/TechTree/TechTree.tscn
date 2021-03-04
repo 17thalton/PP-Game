@@ -1,6 +1,7 @@
-[gd_scene load_steps=4 format=2]
+[gd_scene load_steps=5 format=2]
 
 [ext_resource path="res://src/scenes/ui/MainGUI/TechTree/TechTree.gd" type="Script" id=1]
+[ext_resource path="res://src/scenes/ui/ConfirmationDialog/ConfirmationDialog.tscn" type="PackedScene" id=2]
 [ext_resource path="res://src/scenes/ui/MainGUI/TechTree/Column/Column.tscn" type="PackedScene" id=3]
 
 [sub_resource type="StyleBoxFlat" id=1]
@@ -63,3 +64,7 @@ margin_right = 1136.0
 margin_bottom = 832.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
+
+[node name="ConfirmationDialog" parent="." instance=ExtResource( 2 )]
+visible = false
+position = Vector2( 624, 320 )

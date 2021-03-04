@@ -1,11 +1,39 @@
 {
 	"columns": {
 		"transportation": [
-			"TEST", "TEST2", "test3", "4", "5"
+			{
+				"text": "[b]Mk 1 hydrogen rocket[/b]\n\n Description Description\nMore description",
+				"centre": true, "name": "Mk 1 hydrogen rocket", 
+				"develop_cost": {"oxygen": 100, "nitrogen": 50},
+				"construct_cost": {"iron": 200, "oxygen": 50},
+				"type": "planet_deploy",
+				"id": "rocket01"
+			},
+			{
+				"text": "[b]Mk 1 hydrogen rocket[/b]\n\n Description Description\nMore description",
+				"centre": true, "name": "Mk 1 hydrogen rocket", 
+				"develop_cost": {"oxygen": 100, "nitrogen": 50},
+				"construct_cost": {"iron": 200, "oxygen": 50},
+				"type": "planet_deploy",
+				"id": "rocket02"
+			},
+			{
+				"text": "[b]Mk 1 hydrogen rocket[/b]\n\n Description Description\nMore description",
+				"centre": true, "name": "Mk 1 hydrogen rocket", 
+				"develop_cost": {"oxygen": 100, "nitrogen": 50},
+				"construct_cost": {"iron": 200, "oxygen": 50},
+				"type": "planet_deploy",
+				"id": "rocket03"
+			}
 		],
 		
 		"storage": [
-			"TEST", "TEST2", "test3", "4", "5"
+
 		]
+	},
+	
+	"technology_types": {
+		"planet_deploy": "Can be deployed "
 	}
+	
 }

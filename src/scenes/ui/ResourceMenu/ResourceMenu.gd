@@ -2,6 +2,18 @@ extends Control
 
 var current_resource = null
 
+#onready var resource_icons = {
+#	"hydrogen": preload(),
+#	"water": preload(),
+#	"helium": preload(),
+#	"carbon": preload(),
+#	"methane": preload(),
+#	"nitrogen": preload(),
+#	"ammonia": preload(),
+#	"oxygen": preload(),
+#	"sulfur": preload()
+#}
+
 func _ready():
 	self.visible = false
 	$Background.modulate = Global.Config["menu_colour"]

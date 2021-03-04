@@ -5,6 +5,7 @@ onready var column_object = preload("res://src/scenes/ui/MainGUI/TechTree/Column
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
+	
 	$Background.modulate = Global.Config["menu_colour"]
 	$Background.modulate.a = 1
 	
@@ -23,6 +24,41 @@ func _ready():
 
 
 
-# Called every frame. 'delta' is the elapsed time since the previous frame.
-#func _process(delta):
-#	pass
+func technology_pressed(category: String, technology: Dictionary):
+	
+	if $ConfirmationDialog.instance_id == technology["id"]:
+		$ConfirmationDialog.hide_popup()
+		return
+
+	if technology["id"] in Global.current_world.developed_technology:
+		$ConfirmationDialog.show_popup(
+			"[center]That technology has already been developed[/center]", 
+			null, 
+			null, "Ok", 2.0)
+		return
+	
+	var cost_text = ""
+	for resource in technology["develop_cost"].keys():
+		cost_text = cost_text + " •  " + str(technology["develop_cost"][resource]) + "  " + resource.capitalize() + "\n"
+	
+	$ConfirmationDialog.instance_id = technology["id"]
+	$ConfirmationDialog.show_popup(
+		"[center]Develop this technology?[/center]", 
+		"[center][b]" + technology["name"] + "[/b]\n- - - - - - - - -\nRequired resources:\n\n" + cost_text + "[/center]", 
+		"Cancel", "Develop")
+	yield($ConfirmationDialog, "button_pressed")
+	yield($ConfirmationDialog/AnimationPlayer, "animation_finished")
+	
+	if $ConfirmationDialog.right_button_last_pressed:
+		Global.current_world.developed_technology.append(technology["id"])
+		
+		var content = null
+		match technology["type"]:
+			"planet_deploy": content = "Go to a planet to construct and deploy"
+		
+		$ConfirmationDialog.show_popup(
+			"[center]The technology has been developed[/center]", 
+			"[center]" + content + "[/center]",
+			null, "Yes")
+
+
