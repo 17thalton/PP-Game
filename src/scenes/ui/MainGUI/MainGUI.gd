@@ -3,6 +3,7 @@ extends Control
 onready var main: Node2D = get_tree().get_root().get_child(1)  # Top ancestor node
 
 var ResourceInfo = preload("res://src/scenes/ui/MainGUI/ResourceInfo.tscn")
+var DevelopmentInfo = preload("res://src/scenes/ui/MainGUI/DevelopmentInfo.tscn")
 
 var resource_nodes = {}
 enum MenuState {TRANSITIONING, NONE, OPEN}
@@ -79,6 +80,19 @@ func _process(_delta):
 	
 	if Input.is_action_just_pressed("toggle_solarsystem_view"):
 		menu_button_pressed($Visual/Buttons/ChangeView)
+		
+	for technology in Global.current_world_data["developing_technology"].keys():
+		if Global.current_world_data["developing_technology"][technology]["node"] == null:
+			var new_technology = DevelopmentInfo.instance()
+			Global.current_world_data["developing_technology"][technology]["node"] = new_technology
+			
+			new_technology.get_node("Name").text = str(Global.current_world_data["developing_technology"][technology]["short_name"]).capitalize()
+			new_technology.get_node("Amount").bbcode_text = "[right]" + str(int(Global.current_world_data["developing_technology"][technology]["timer"].time_left)) + " seconds[/right]"
+			new_technology.rect_size.x = $Visual/DevelopingTechnologies/ScrollContainer/Container.rect_size.x
+	
+			$Visual/DevelopingTechnologies/ScrollContainer/Container.add_child(new_technology)
+		else:
+			Global.current_world_data["developing_technology"][technology]["node"].get_node("Amount").bbcode_text = "[right]" + str(int(Global.current_world_data["developing_technology"][technology]["timer"].time_left)) + " seconds[/right]"
 	
 	if main.focused_planet != null:
 		return
@@ -92,6 +106,7 @@ func _process(_delta):
 	else:
 		menu_open = false
 		$AnimationPlayer.play("SlideOut")
+		
 
 func menu_button_pressed(button):
 

@@ -2,38 +2,75 @@
 	"columns": {
 		"transportation": [
 			{
-				"text": "[b]Mk 1 hydrogen rocket[/b]\n\n Description Description\nMore description",
-				"centre": true, "name": "Mk 1 hydrogen rocket", 
-				"develop_cost": {"oxygen": 100, "nitrogen": 50},
+				"text": "[b]Standard hydrogen rocket[/b]\n\nA standard hydrogen rocket. Enables travel to each planet either side of the base planet.",
+				"name": "Standard hydrogen rocket", 
+				"short_name": "Standard rocket",
+				"develop_cost": {},
+				"develop_time": 5,
 				"construct_cost": {"iron": 200, "oxygen": 50},
-				"type": "planet_deploy",
-				"id": "rocket01"
+				"type": "develop",
+				"id": "rocket_1"
 			},
 			{
-				"text": "[b]Mk 1 hydrogen rocket[/b]\n\n Description Description\nMore description",
-				"centre": true, "name": "Mk 1 hydrogen rocket", 
-				"develop_cost": {"oxygen": 100, "nitrogen": 50},
+				"text": "[b]Side-booster hydrogen rocket[/b]\n\nA standard hydrogen rocket equipped with side-boosters. Enables travel to two planets on either side of the base planet.",
+				"name": "Side-booster equipped hydrogen rocket", 
+				"short_name": "Side-booster rocket",
+				"develop_cost": {},
+				"develop_time": 5,
 				"construct_cost": {"iron": 200, "oxygen": 50},
-				"type": "planet_deploy",
-				"id": "rocket02"
+				"type": "develop",
+				"id": "rocket_2"
 			},
 			{
-				"text": "[b]Mk 1 hydrogen rocket[/b]\n\n Description Description\nMore description",
-				"centre": true, "name": "Mk 1 hydrogen rocket", 
-				"develop_cost": {"oxygen": 100, "nitrogen": 50},
-				"construct_cost": {"iron": 200, "oxygen": 50},
-				"type": "planet_deploy",
-				"id": "rocket03"
+				"text": "[b]Solar-sail equipped rocket[/b]\n\nSide-booster hydrogen rocket carrying an additional payload outfitted with solar-sails. Can travel to planets of any distance.",
+				"name": "Hydrogen rocket with solar-sails", 
+				"short_name": "Solar-sail rocket",
+				"develop_cost": {},
+				"develop_time": 5,
+				"construct_cost": {"copper": 0, "iron": 0, "carbon": 0},
+				"type": "develop",
+				"id": "rocket_3"
 			}
 		],
 		
 		"storage": [
-
+			{
+				"text": "[b]Lv. 1 storage facility[/b]\n\nStandard storage facility capable of holding up to XYZ of each resource",
+				"name": "Lv. 1 storage facility",
+				"develop_cost": {"iron": 0},
+				"type": "construct",
+				"id": "storage_1"
+			},
+			{
+				"text": "[b]Lv. 2 storage facility[/b]\n\nUpgraded storage facility capable of holding up to XYZ of each resource",
+				"name": "Lv. 2 storage facility",
+				"develop_cost": {"iron": 0},
+				"type": "construct",
+				"id": "storage_2"
+			},
+			{
+				"text": "[b]Lv. 3 storage facility[/b]\n\nSignificantly upgraded storage facility capable of holding up to XYZ of each resource",
+				"name": "Lv. 3 storage facility",
+				"develop_cost": {"iron": 0},
+				"type": "construct",
+				"id": "storage_3"
+			}
+		],
+		
+		"resources": [
+			{
+				"text": "TEXT",
+				"name": "NAME",
+				"develop_cost": {"iron": 1},
+				"type": "construct",
+				"id": "resources_1"
+			}
 		]
 	},
 	
 	"technology_types": {
-		"planet_deploy": "Can be deployed "
+		"develop": "Is researched/developed over time",
+		"construct": "Constructed immediately using an up-front cost"
 	}
 	
 }

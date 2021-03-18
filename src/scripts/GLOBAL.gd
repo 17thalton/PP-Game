@@ -21,10 +21,13 @@ onready var planets = {
 	"star": preload("res://lib/PixelPlanets/Planets/Star/Star.tscn"),
 }
 
-var generation_data: Dictionary
+onready var SolarSystem = preload("res://src/scripts/SolarSystem/SolarSystem.gd")
+var generation_data = load_json("res://src/data/generation_data.json")
+onready var techtree_data = load_json("res://src/data/tech_tree.json")
 
 # SolarSystem class containing all world data such as planets and seed
 var current_world = null
+var current_world_data = {}
 
 # The currently active camera (set manually)
 var active_camera: Camera2D
@@ -41,6 +44,8 @@ const camera_offset = Vector2(960, 540)
 var rotation_speed_modifier: float = 1.0
 
 var current_discord_activity = null
+
+var last_dialog_confirmed = null
 
 # Default config data
 var Config: Dictionary = {
@@ -63,6 +68,11 @@ var Config: Dictionary = {
 	
 	}
 
+onready var confirmation_dialog = preload("res://src/scenes/ui/ConfirmationDialog/ConfirmationDialog.tscn")
+
+var minigame_destination = null
+var minigame_start = null
+
 # Specifies config entries that use special types
 const config_types = {"menu_colour": "colour"}
 
@@ -77,7 +87,19 @@ func _ready():
 #	else:
 #		load_config(file)
 
-	generation_data = load_json("res://src/data/generation_data.json")
+	pause_mode = Node.PAUSE_MODE_PROCESS
+
+	# Init confirmation dialog
+	confirmation_dialog = confirmation_dialog.instance()
+	
+	confirmation_dialog.visible = false
+	confirmation_dialog.scale = Vector2(0.7, 0.7)
+	confirmation_dialog.position = Vector2(370, 150)
+	
+	var canvas = CanvasLayer.new()
+	self.add_child(canvas)
+	canvas.layer = 9999
+	canvas.add_child(confirmation_dialog)
 
 	save_config()
 	load_config(file)
@@ -103,6 +125,16 @@ func _process(_delta):
 			Input.set_mouse_mode(Input.MOUSE_MODE_CONFINED)
 		else:
 			Input.set_mouse_mode(Input.MOUSE_MODE_VISIBLE)
+	if Input.is_action_just_pressed("screenshot"):
+		
+		var dir = Directory.new()
+		dir.open("user://")
+		if not dir.dir_exists("screenshots"):
+			dir.make_dir("screenshots")
+		
+		var image = get_viewport().get_texture().get_data()
+		var date = OS.get_datetime()
+		image.save_png("user://screenshots/" + str(date["year"]) + "-" + str(date["month"]) + "-" + str(date["day"]) + "_" + str(date["hour"]) + "." + str(date["minute"]) + "." + str(date["second"]) + ".png")
 	if Config["discord_rich_presence"]:
 		Godotcord.run_callbacks();
 	
@@ -193,14 +225,19 @@ func is_point_in_area(point: Vector2, area_position: Vector2, area_size: Vector2
 	return distance_x < area_size.x and distance_y < area_size.y
 
 # Instance and prepare a PixelPlanets planet node, and return it 
-func get_planet_sprite(type, sd):
+func get_planet_sprite(type, sd, apply_adjustments: bool = true) -> Control:
 	var sprite = planets[type.to_lower()].instance()
 	
 	sprite.set_seed(sd)
-	sprite.rect_position = Vector2(0,0)
+	sprite.set_pixels(100)
 	sprite.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	sprite.name = "Sprite"
 	
+	if not apply_adjustments:
+		return sprite
+		
+	sprite.rect_position = Vector2(0,0)
+
 	if type.to_lower() == "star":
 		sprite.rect_position = Vector2(-50, -50)
 		sprite.rect_scale = Vector2(1, 1)
@@ -214,15 +251,10 @@ func get_planet_sprite(type, sd):
 		sprite.rect_position = Vector2(-25, -25)
 		sprite.rect_scale = Vector2(50/resolution, 50/resolution)
 	
-	for child in sprite.get_children():
-		if child is ColorRect:
-			child.material.resource_local_to_scene = true
-		child.mouse_filter = Control.MOUSE_FILTER_IGNORE
-	
 	return sprite
 	
 # Load JSON file at the specified path and returns data as dict
-func load_json(path: String):
+func load_json(path: String) -> Dictionary:
 	var f = File.new()
 	f.open(path, File.READ)
 	var data = f.get_as_text()
@@ -237,3 +269,40 @@ func random_item(rng: RandomNumberGenerator, array: Array):
 func randi_range_array(rng, array: Array):
 	return rng.randi_range(array[0], array[1])
 
+func start_technology_development(technology: Dictionary):
+	print("started " + technology["id"])
+	var timer = Timer.new()
+	current_world_data["developing_technology"][technology["id"]] = technology
+	current_world_data["developing_technology"][technology["id"]]["timer"] = timer
+	current_world_data["developing_technology"][technology["id"]]["node"] = null
+	timer.connect("timeout", self, "technology_development_completed", [technology["id"]])
+	timer.one_shot = true
+	timer.name = technology["id"]
+	self.add_child(timer)
+	timer.start(technology["develop_time"])
+	
+func technology_development_completed(technology_id: String):
+	print(technology_id)
+	Global.current_world_data["developed_technology"].append(technology_id)
+	current_world_data["developing_technology"][technology_id]["timer"].queue_free()
+	current_world_data["developing_technology"][technology_id]["node"].queue_free()
+	current_world_data["developing_technology"].erase(technology_id)
+	
+	
+func display_confirmation_dialog(title: String, description: String, cancel_option, confirm_option):
+	
+	if confirmation_dialog.visible or confirmation_dialog.get_node("AnimationPlayer").current_animation != "":
+		yield(self, "next_frame")
+		return
+	
+	confirmation_dialog.show_popup(title, description, cancel_option, confirm_option, 1.0, true)
+	
+	yield(confirmation_dialog, "button_pressed")
+	
+	last_dialog_confirmed = confirmation_dialog.right_button_last_pressed
+	
+func reload_world(current_planet_index: int):
+	current_world = SolarSystem.new("", 0, false, "", true)
+	current_world.current_planet = current_world.planets[current_planet_index]
+	get_tree().change_scene("res://src/scenes/game/Main.tscn")
+			

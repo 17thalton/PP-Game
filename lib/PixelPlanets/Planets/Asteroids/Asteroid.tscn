@@ -28,6 +28,7 @@ func set_custom_time(t):
 "
 
 [sub_resource type="ShaderMaterial" id=2]
+resource_local_to_scene = true
 shader = ExtResource( 2 )
 shader_param/pixels = 100.0
 shader_param/rotation = 0.0

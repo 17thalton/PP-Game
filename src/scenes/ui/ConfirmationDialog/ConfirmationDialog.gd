@@ -17,13 +17,13 @@ var instance_id = null
 func reset_popup(single_node: String = ""):
 	
 	var nodes = original_nodes
-	if single_node != "":
-		nodes = {single_node: original_nodes[single_node]}
-	if single_node == "" or single_node == "self":
-		self.position = original_self.position
-		if single_node == "self":
-			return
-		
+	if single_node != "_":
+		if single_node != "":
+			nodes = {single_node: original_nodes[single_node]}
+		if single_node == "" or single_node == "self":
+			self.position = original_self.position
+			if single_node == "self":
+				return
 	
 	for node in nodes.keys():
 		for property in ["rect_position", "rect_size", "visible"]:
@@ -32,15 +32,20 @@ func reset_popup(single_node: String = ""):
 func _ready():
 	$ButtonLeft.connect("pressed", self, "button_pressed", [false])
 	$ButtonRight.connect("pressed", self, "button_pressed", [true])
+#	self.visible = false
 
-func show_popup(title: String, content, button_left, button_right, title_height_modifier: float = 1.0):
+func show_popup(title: String, content, button_left, button_right, title_height_modifier: float = 1.0, skip_position_reset: bool = false):
 	
 	if self.visible:
 		yield(hide_popup(2), "completed")
 	if $AnimationPlayer.current_animation != "":
 		return
 	
-	reset_popup()
+	if skip_position_reset:
+		reset_popup("_")
+	else:
+		reset_popup()
+		
 	
 	if title_height_modifier != 1.0:
 		$Title.rect_size.y *= title_height_modifier
@@ -82,6 +87,7 @@ func show_popup(title: String, content, button_left, button_right, title_height_
 func hide_popup(speed_modifier: float = 1.0):
 	
 	if not self.visible or $AnimationPlayer.current_animation != "":
+		yield(Global, "next_frame")
 		return
 		
 	self.instance_id = null

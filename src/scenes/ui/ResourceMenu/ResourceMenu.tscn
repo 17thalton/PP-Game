@@ -36,7 +36,7 @@ offset = Vector2( 575, 420 )
 zoom = Vector2( 2, 2 )
 
 [node name="Background" type="Panel" parent="."]
-modulate = Color( 0.137255, 0.133333, 0.290196, 1 )
+modulate = Color( 0.254902, 0.223529, 0.431373, 1 )
 margin_right = 384.0
 margin_bottom = 960.0
 custom_styles/panel = SubResource( 1 )

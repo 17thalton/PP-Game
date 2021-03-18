@@ -1,8 +1,6 @@
 extends Control
 # https://www.youtube.com/watch?v=LdHKs2Foon0&list=PLI95OAGEsXs8_5_OrBpZylMFp4xuEVleL&index=2
 
-onready var SolarSystem = preload("res://src/scripts/SolarSystem/SolarSystem.gd")
-
 # Characters that cannot be contained in the world name
 const invalid_worldname_chars = [
 	"\n",
@@ -133,8 +131,11 @@ func create_world():
 	else:
 		world_seed = $text_seed/text.text.strip_edges().hash()
 	
-	var world = SolarSystem.new(world_name, world_seed, random_seed, difficulty)
+	var world = Global.SolarSystem.new(world_name, world_seed, random_seed, difficulty)
 
 	Global.current_world = world
+	
+	#DEBUG
 	get_tree().change_scene("res://src/scenes/game/Main.tscn")
+#	get_tree().change_scene("res://src/scenes/game/TravelGame/TravelGame.tscn")
 	

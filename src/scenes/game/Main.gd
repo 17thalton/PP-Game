@@ -8,6 +8,8 @@ var test: Node2D
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	
+	print(Global.current_world_data)
+	
 	$Star.queue_free()
 	
 	# Add sun and planets to scene
@@ -75,3 +77,48 @@ func await_orbit_stop(planet, value_to_set):
 		yield(planet.get_node("AnimationPlayer"), "animation_finished")
 	
 	planet.orbit_stopped = value_to_set
+
+func travel_to_planet(destination_planet):
+	
+	if destination_planet == Global.current_world.current_planet:
+		return
+	
+	var distance = destination_planet.distance_to_planet(Global.current_world.current_planet)
+	
+	var required_transportation = Global.techtree_data["columns"]["transportation"][min(3, distance) - 1]["name"]
+	
+	if Global.techtree_data["columns"]["transportation"][min(3, distance) - 1]["id"] in Global.current_world_data["developed_technology"]:
+		yield(Global.display_confirmation_dialog(
+			"[center]Travel to " + destination_planet.name + "?[/center]",
+			"[center]Distance from current planet: " + str(distance) + "\n\nRequired transportation:\n" + required_transportation + "[/center]",
+			 "Cancel", "OK"),
+		"completed")
+		
+		if Global.last_dialog_confirmed:
+			Global.minigame_destination = {"sprite": destination_planet.sprite_name}
+			var i = 0
+			for destination_planet in Global.current_world.planets:
+				if destination_planet == destination_planet:
+					Global.minigame_destination["index"] = i
+					break
+				i += 1
+			
+			Global.minigame_start = {"sprite": Global.current_world.current_planet.sprite_name}
+			i = 0
+			for planet in Global.current_world.planets:
+				if planet == Global.current_world.current_planet:
+					Global.minigame_start["index"] = i
+					break
+				i += 1
+			
+			get_tree().change_scene("res://src/scenes/game/TravelGame/TravelGame.tscn")
+		else:
+			Global.last_dialog_confirmed = null
+		
+	else:
+		yield(Global.display_confirmation_dialog(
+			"[center]Cannot travel to that planet[/center]",
+			"[center]Distance from current planet: " + str(distance) + "\n\nRequired transportation:\n" + required_transportation + "\n\nThe required transportation method has not been developed[/center]",
+			 null, "OK"),
+		"completed")
+	

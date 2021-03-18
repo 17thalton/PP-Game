@@ -3,7 +3,7 @@ extends Control
 var time = 1000.0
 var override_time = false
 export (float) var relative_scale = 1.0
-
+var speed_modifier = 1.0
 var static_texture = false
 
 func set_pixels(_amount):
@@ -27,6 +27,6 @@ func _process(delta):
 	if static_texture:
 		return
 	
-	time += delta
+	time += delta * speed_modifier
 	if !override_time:
 		update_time(time)

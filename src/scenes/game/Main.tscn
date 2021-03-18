@@ -51,6 +51,5 @@ current = true
 [node name="MainGUI" parent="." instance=ExtResource( 4 )]
 margin_right = 1921.0
 margin_bottom = 1080.0
-mouse_filter = 2
 
 [node name="Tween" type="Tween" parent="."]

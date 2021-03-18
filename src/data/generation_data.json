@@ -47,8 +47,15 @@
 	},
 	
 	"starting_planet_presets": [
-		{"resources": [], "type": "", "sprites": []}
+		{"resources": ["iron", "carbon", "hydrogen"], "type": "Ocean planet", "sprites": []},
+		{"resources": ["iron", "carbon", "methane"], "type": "Ocean planet", "sprites": []},
+		{"resources": ["iron", "carbon", "hydrogen"], "type": "Desert planet", "sprites": []},
+		{"resources": ["iron", "carbon", "methane"], "type": "Desert planet", "sprites": []},
+		{"resources": ["iron", "carbon", "hydrogen"], "type": "Terrestrial planet", "sprites": []},
+		{"resources": ["iron", "carbon", "methane"], "type": "Terrestrial planet", "sprites": []},
 	],
+	"comment": "starting planet must have: iron+carbon (for steel), hydrogen or methane (for fuel)",
+	
 	
 	"resources": {
 		"hydrogen": {"description": "", "details": "Formula: H", "atomic_number": 1},
