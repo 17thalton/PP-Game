@@ -23,7 +23,7 @@ func _ready():
 		new_resource.connect("pressed", self, "resource_clicked", [resource])
 		
 	if Global.current_world.current_planet == planet:
-		$PlanetInfo/TravelButton/Info.bbcode_text = "You are already on this planet"
+		$PlanetInfo/TravelButton/Info.bbcode_text = "[center]You are already on this planet[/center]"
 	else:
 		$PlanetInfo/TravelButton/Info.bbcode_text = ""
 	
@@ -111,7 +111,7 @@ func resource_clicked(resource: String):
 		
 	else:
 		
-		$ResourceMenu.set_resource(resource)
+		$ResourceMenu.set_resource(resource, true)
 		
 		$ResourceMenu.visible = true
 		$Tween.interpolate_property($ResourceMenu, "modulate", Color.transparent, Color.white, duration, Tween.TRANS_SINE, Tween.EASE_IN_OUT)

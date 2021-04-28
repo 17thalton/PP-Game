@@ -29,6 +29,8 @@ onready var techtree_data = load_json("res://src/data/tech_tree.json")
 var current_world = null
 var current_world_data = {}
 
+var rng = null
+
 # The currently active camera (set manually)
 var active_camera: Camera2D
 
@@ -42,8 +44,6 @@ onready var zoom_modifier = (OS.get_screen_size() / Vector2(
 const camera_offset = Vector2(960, 540)
 
 var rotation_speed_modifier: float = 1.0
-
-var current_discord_activity = null
 
 var last_dialog_confirmed = null
 
@@ -61,8 +61,6 @@ var Config: Dictionary = {
 	"animation_speed": 1, # Increases/decreases animation speed
 	
 	"snappy_animations": true, # Toggles hardcoded snappy animations
-	
-	"discord_rich_presence": false, # Enables Discord rich presence integration
 	
 	"language": "en",
 	
@@ -101,15 +99,26 @@ func _ready():
 	canvas.layer = 9999
 	canvas.add_child(confirmation_dialog)
 
+	for column in techtree_data["columns"].keys():
+		var i = 0
+		for technology in techtree_data["columns"][column]:
+			var current = null
+			var to_replace = []
+			for character in technology["text"]:
+				if character == "$":
+					if current == null:
+						current = "$"
+					else:
+						to_replace.append(current + "$")
+						current = null
+				elif current != null:
+					current = current + character
+			for item in to_replace:
+				techtree_data["columns"][column][i]["text"] = technology["text"].replace(item, technology[item.replace("$", "")])
+			i += 1
+
 	save_config()
 	load_config(file)
-
-	if Config["discord_rich_presence"]:
-		Godotcord.init(813775934712840203, 0)
-		var activity = GodotcordActivity.new()
-		activity.state = "TEST"
-		activity.large_image = "large_main"
-		discord_status(activity)
 	
 	TranslationServer.set_locale(Config["language"])
 
@@ -133,11 +142,9 @@ func _process(_delta):
 			dir.make_dir("screenshots")
 		
 		var image = get_viewport().get_texture().get_data()
+		image.flip_y()
 		var date = OS.get_datetime()
 		image.save_png("user://screenshots/" + str(date["year"]) + "-" + str(date["month"]) + "-" + str(date["day"]) + "_" + str(date["hour"]) + "." + str(date["minute"]) + "." + str(date["second"]) + ".png")
-	if Config["discord_rich_presence"]:
-		Godotcord.run_callbacks();
-	
 
 # Load config file from user://config.json and write it to the Config var
 func load_config(file: File):
@@ -202,10 +209,6 @@ func text_fade_out(text_node, frames_to_wait: int = 1):
 		text_node.visible_characters -= 1
 		for _i in range(frames_to_wait / Global.Config["text_speed"]):
 			yield(self, "next_frame")
-
-func discord_status(activity: GodotcordActivity):
-	current_discord_activity = activity
-	GodotcordActivityManager.set_activity(activity)
 
 # Correct the camera zoom and offset based on screen resolution
 func correct_camera(camera: Camera2D = active_camera):
@@ -282,20 +285,31 @@ func start_technology_development(technology: Dictionary):
 	timer.start(technology["develop_time"])
 	
 func technology_development_completed(technology_id: String):
-	print(technology_id)
 	Global.current_world_data["developed_technology"].append(technology_id)
 	current_world_data["developing_technology"][technology_id]["timer"].queue_free()
 	current_world_data["developing_technology"][technology_id]["node"].queue_free()
 	current_world_data["developing_technology"].erase(technology_id)
 	
+	apply_technology(technology_id)
+	
+func apply_technology(technology_id: String):
+	if "storage" in technology_id:
+		for technology in Global.techtree_data["columns"]["storage"]:
+			if technology["id"] == technology_id:
+				set_resource("max", technology["resource_cap"], false)
+	
 	
 func display_confirmation_dialog(title: String, description: String, cancel_option, confirm_option):
+	for i in range(1):
+		yield(self, "next_frame")
+	if confirmation_dialog.get_node("AnimationPlayer").current_animation != "":
+		yield(confirmation_dialog.get_node("AnimationPlayer"), "animation_finished")
 	
-	if confirmation_dialog.visible or confirmation_dialog.get_node("AnimationPlayer").current_animation != "":
+	if confirmation_dialog.visible:
 		yield(self, "next_frame")
 		return
 	
-	confirmation_dialog.show_popup(title, description, cancel_option, confirm_option, 1.0, true)
+	confirmation_dialog.show_popup(title, description, cancel_option, confirm_option, 1.0)
 	
 	yield(confirmation_dialog, "button_pressed")
 	
@@ -306,3 +320,21 @@ func reload_world(current_planet_index: int):
 	current_world.current_planet = current_world.planets[current_planet_index]
 	get_tree().change_scene("res://src/scenes/game/Main.tscn")
 			
+
+func set_resource(key: String, value: int, addition: bool):
+	
+	if key == "max":
+		if addition:
+			current_world.resource_cap += value
+		else:
+			current_world.resource_cap = value
+	else:
+		if addition:
+			current_world.resources[key] += value
+		else:
+			current_world.resources[key] = value
+			
+		current_world.resources[key] = min(current_world.resources[key], current_world.resource_cap)
+
+	overlay_gui.update_resource(key)
+

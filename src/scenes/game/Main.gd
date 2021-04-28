@@ -8,8 +8,6 @@ var test: Node2D
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	
-	print(Global.current_world_data)
-	
 	$Star.queue_free()
 	
 	# Add sun and planets to scene
@@ -85,40 +83,108 @@ func travel_to_planet(destination_planet):
 	
 	var distance = destination_planet.distance_to_planet(Global.current_world.current_planet)
 	
-	var required_transportation = Global.techtree_data["columns"]["transportation"][min(3, distance) - 1]["name"]
+	var required_transportation = Global.techtree_data["columns"]["transportation"][min(3, distance) - 1]
 	
-	if Global.techtree_data["columns"]["transportation"][min(3, distance) - 1]["id"] in Global.current_world_data["developed_technology"]:
+	if required_transportation["id"] in Global.current_world_data["developed_technology"]:
+
 		yield(Global.display_confirmation_dialog(
 			"[center]Travel to " + destination_planet.name + "?[/center]",
-			"[center]Distance from current planet: " + str(distance) + "\n\nRequired transportation:\n" + required_transportation + "[/center]",
-			 "Cancel", "OK"),
+			"[center]Distance from current planet: " + str(distance) + "\n\nRequired transportation:\n" + required_transportation["name"] + "[/center]",
+			 "Cancel", "Proceed"),
 		"completed")
 		
-		if Global.last_dialog_confirmed:
-			Global.minigame_destination = {"sprite": destination_planet.sprite_name}
-			var i = 0
-			for destination_planet in Global.current_world.planets:
-				if destination_planet == destination_planet:
-					Global.minigame_destination["index"] = i
-					break
-				i += 1
-			
-			Global.minigame_start = {"sprite": Global.current_world.current_planet.sprite_name}
-			i = 0
-			for planet in Global.current_world.planets:
-				if planet == Global.current_world.current_planet:
-					Global.minigame_start["index"] = i
-					break
-				i += 1
-			
-			get_tree().change_scene("res://src/scenes/game/TravelGame/TravelGame.tscn")
-		else:
+		if not Global.last_dialog_confirmed:
 			Global.last_dialog_confirmed = null
+			return
+
+		var cost_text = ""
+		var not_enough_resources = false
+		for resource in required_transportation["construct_cost"].keys():
+
+			if required_transportation["construct_cost"][resource] > Global.current_world.resources[resource]:
+				not_enough_resources = true
+			
+			cost_text = cost_text + " •  " + str(required_transportation["construct_cost"][resource]) + "  " + resource.capitalize() + "\n"
+	
+		if not_enough_resources:
+			cost_text = cost_text + "\nYou do not have enough resources"
+			yield(Global.display_confirmation_dialog(
+				"[center]Required resources:[/center]",
+				"[center]" + cost_text + "[/center]",
+				 null, "Ok"),
+			"completed")
+			Global.last_dialog_confirmed = null
+			return
+		else:
+			yield(Global.display_confirmation_dialog(
+				"[center]Required resources:[/center]",
+				"[center]" + cost_text + "[/center]",
+				 "Cancel", "Proceed"),
+			"completed")
+			Global.last_dialog_confirmed = null
+
+		cost_text = ""
+		not_enough_resources = [false, false]
+		cost_text = ""
+		var i = 0
+		for option in required_transportation["fuel"]:
+			cost_text = cost_text + "Method " + str(i + 1) + ": \n"
+			for resource in option.keys():
+	
+				if option[resource] > Global.current_world.resources[resource]:
+					not_enough_resources[i] = true
+				
+				cost_text = cost_text + " •  " + str(option[resource]) + "  " + resource.capitalize() + "\n"
+			cost_text = cost_text + "\n"
+			i += 1
 		
+		yield(Global.display_confirmation_dialog(
+			"[center]Required fuel resources:[/center]",
+			"[center]" + cost_text + "[/center]",
+			 "Option 1", "Option 2"),
+		"completed")
+		
+		var selected_option = null
+		if Global.last_dialog_confirmed:
+			selected_option = 1
+		else:
+			selected_option = 0
+			
+		if not_enough_resources[selected_option]:
+			yield(Global.display_confirmation_dialog(
+				"[center]Cannot use that method[/center]",
+				"[center]You do not have enough resources[/center]",
+				 null, "Ok"),
+			"completed")
+			Global.last_dialog_confirmed = null
+			return
+		else:
+			for resource in required_transportation["fuel"][selected_option].keys():
+				Global.set_resource(resource, -required_transportation["fuel"][selected_option][resource], true)
+
+		Global.last_dialog_confirmed = null
+		Global.minigame_destination = {"sprite": destination_planet.sprite_name}
+		i = 0
+		for planet in Global.current_world.planets:
+			if planet == destination_planet:
+				Global.minigame_destination["index"] = i
+				break
+			i += 1
+		
+		Global.minigame_start = {"sprite": Global.current_world.current_planet.sprite_name}
+		i = 0
+		for planet in Global.current_world.planets:
+			if planet == Global.current_world.current_planet:
+				Global.minigame_start["index"] = i
+				break
+			i += 1
+		
+		get_tree().change_scene("res://src/scenes/game/TravelGame/TravelGame.tscn")
+	
 	else:
 		yield(Global.display_confirmation_dialog(
 			"[center]Cannot travel to that planet[/center]",
-			"[center]Distance from current planet: " + str(distance) + "\n\nRequired transportation:\n" + required_transportation + "\n\nThe required transportation method has not been developed[/center]",
+			"[center]Distance from current planet: " + str(distance) + "\n\nRequired transportation:\n" + required_transportation["name"] + "\n\nThe required transportation method has not been developed[/center]",
 			 null, "OK"),
 		"completed")
 	

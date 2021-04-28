@@ -90,7 +90,7 @@ func hide_popup(speed_modifier: float = 1.0):
 		yield(Global, "next_frame")
 		return
 		
-	self.instance_id = null
+#	self.instance_id = null
 	
 	$AnimationPlayer.play("FadeOut", -1, Global.Config["animation_speed"] * speed_modifier)
 	yield($AnimationPlayer, "animation_finished")

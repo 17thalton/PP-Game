@@ -130,8 +130,7 @@ func create_world():
 		world_seed = int($text_seed/text.text.strip_edges())
 	else:
 		world_seed = $text_seed/text.text.strip_edges().hash()
-	
-	var world = Global.SolarSystem.new(world_name, world_seed, random_seed, difficulty)
+	var world = Global.SolarSystem.new(world_name, world_seed, random_seed, "easy")
 
 	Global.current_world = world
 	

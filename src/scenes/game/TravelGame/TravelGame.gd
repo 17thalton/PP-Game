@@ -42,7 +42,7 @@ func _ready():
 	
 	Global.active_camera = $Camera2D
 	
-	var rng = Global.current_world.rng
+	var rng = Global.rng
 	
 	# Set random background
 	$Background/TextureRect.texture = load(Global.random_item(rng, Global.random_item(rng, backgrounds)))
@@ -123,11 +123,8 @@ func generate_asteroid(rng: RandomNumberGenerator, separation_objects: Array):
 func fail_state():
 	yield(Global.display_confirmation_dialog("[center]Game over[/center]", "[center]The mission failed because a rocket was destroyed[/center]", "Quit", "Retry"), "completed")
 	
-#	while Global.last_dialog_confirmed == null:
-#		pass
-	
 	if Global.last_dialog_confirmed:
-		Global.reload_world(Global.minigame_destination["index"])
+		Global.reload_world(Global.minigame_start["index"])
 	else:
 		get_tree().quit()
 	

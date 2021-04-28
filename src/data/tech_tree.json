@@ -2,75 +2,290 @@
 	"columns": {
 		"transportation": [
 			{
-				"text": "[b]Standard hydrogen rocket[/b]\n\nA standard hydrogen rocket. Enables travel to each planet either side of the base planet.",
+				"text": "[b]$name$[/b]\n\nA standard hydrogen rocket. Enables travel to each planet either side of the base planet.",
 				"name": "Standard hydrogen rocket", 
 				"short_name": "Standard rocket",
 				"develop_cost": {},
-				"develop_time": 5,
-				"construct_cost": {"iron": 200, "oxygen": 50},
-				"type": "develop",
-				"id": "rocket_1"
+				"develop_time": 1,
+				"construct_cost": {"iron": 2000, "carbon": 1500},
+				"fuel": [{"methane": 500, "oxygen": 400}, {"hydrogen": 650, "oxygen": 325}],
+				"id": "rocket_1",
+				"requires_previous_technology": true
 			},
 			{
-				"text": "[b]Side-booster hydrogen rocket[/b]\n\nA standard hydrogen rocket equipped with side-boosters. Enables travel to two planets on either side of the base planet.",
+				"text": "[b]$name$[/b]\n\nA standard hydrogen rocket equipped with side-boosters. Enables travel to two planets on either side of the base planet.",
 				"name": "Side-booster equipped hydrogen rocket", 
 				"short_name": "Side-booster rocket",
 				"develop_cost": {},
-				"develop_time": 5,
-				"construct_cost": {"iron": 200, "oxygen": 50},
-				"type": "develop",
-				"id": "rocket_2"
+				"develop_time": 1,
+				"construct_cost": {"iron": 3000, "carbon": 2500},
+				"fuel": [{"methane": 850, "oxygen": 700}, {"hydrogen": 1000, "oxygen": 500}],
+				"id": "rocket_2",
+				"requires_previous_technology": true
 			},
 			{
-				"text": "[b]Solar-sail equipped rocket[/b]\n\nSide-booster hydrogen rocket carrying an additional payload outfitted with solar-sails. Can travel to planets of any distance.",
+				"text": "[b]$name$[/b]\n\nSide-booster hydrogen rocket carrying an additional payload outfitted with solar-sails. Can travel to planets of any distance.",
 				"name": "Hydrogen rocket with solar-sails", 
 				"short_name": "Solar-sail rocket",
 				"develop_cost": {},
-				"develop_time": 5,
-				"construct_cost": {"copper": 0, "iron": 0, "carbon": 0},
-				"type": "develop",
-				"id": "rocket_3"
+				"develop_time": 1,
+				"construct_cost": {"copper": 2000, "sulfur": 1500, "iron": 3000, "carbon": 2500},
+				"fuel": [{"methane": 400, "oxygen": 300}, {"hydrogen": 500, "oxygen": 250}],
+				"id": "rocket_3",
+				"requires_previous_technology": true
 			}
 		],
 		
 		"storage": [
 			{
-				"text": "[b]Lv. 1 storage facility[/b]\n\nStandard storage facility capable of holding up to XYZ of each resource",
+				"text": "[b]$name$[/b]\n\nStandard storage facility capable of holding up to $resource_cap$ of each resource",
 				"name": "Lv. 1 storage facility",
-				"develop_cost": {"iron": 0},
-				"type": "construct",
-				"id": "storage_1"
+				"develop_cost": {"iron": 100},
+				"id": "storage_1",
+				"resource_cap": 2000,
+				"requires_previous_technology": true
 			},
 			{
-				"text": "[b]Lv. 2 storage facility[/b]\n\nUpgraded storage facility capable of holding up to XYZ of each resource",
+				"text": "[b]$name$[/b]\n\nUpgraded storage facility capable of holding up to $resource_cap$ of each resource",
 				"name": "Lv. 2 storage facility",
 				"develop_cost": {"iron": 0},
-				"type": "construct",
-				"id": "storage_2"
+				"id": "storage_2",
+				"resource_cap": 3500,
+				"requires_previous_technology": true
 			},
 			{
-				"text": "[b]Lv. 3 storage facility[/b]\n\nSignificantly upgraded storage facility capable of holding up to XYZ of each resource",
+				"text": "[b]$name$[/b]\n\nSignificantly upgraded storage facility capable of holding up to $resource_cap$ of each resource",
 				"name": "Lv. 3 storage facility",
 				"develop_cost": {"iron": 0},
-				"type": "construct",
-				"id": "storage_3"
+				"id": "storage_3",
+				"resource_cap": 5000,
+				"requires_previous_technology": true
 			}
 		],
 		
-		"resources": [
+		"hydrogen": [
 			{
-				"text": "TEXT",
-				"name": "NAME",
+				"text": "[b]$name$[/b]\n\nFilters hydrogen gas from the planet's atmosphere. Standard-performance installation.",
+				"name": "Lv. 1 hydrogen filter",
+				"develop_cost": {},
+				"develop_time": 20,
+				"construct_cost": {"iron": 500},
+				"production": {"hydrogen": 1},
+				"id": "hydrogen_1",
+				"requires_previous_technology": true
+			},
+			{
+				"text": "[b]$name$[/b]\n\nFilters hydrogen gas from planet's atmosphere. Slightly upgraded production rate.",
+				"name": "Lv. 2 hydrogen filter",
 				"develop_cost": {"iron": 1},
-				"type": "construct",
-				"id": "resources_1"
+				"construct_cost": {"iron": 1000},
+				"production": {"hydrogen": 5},
+				"id": "hydrogen_2",
+				"requires_previous_technology": true
+			},
+			{
+				"text": "[b]$name$[/b]\n\nFilters hydrogen gas from the planet's atmosphere. Significantly upgraded production rate.",
+				"name": "Lv. 3 hydrogen filter",
+				"develop_cost": {},
+				"construct_cost": {"iron": 1500},
+				"production": {"hydrogen": 10},
+				"id": "hydrogen_3",
+				"requires_previous_technology": true
 			}
-		]
-	},
-	
-	"technology_types": {
-		"develop": "Is researched/developed over time",
-		"construct": "Constructed immediately using an up-front cost"
-	}
-	
+		],
+
+		"iron": [
+			{
+				"text": "[b]$name$[/b]\n\nExtracts iron from the planet's surface. Standard-performance installation.",
+				"name": "Lv. 1 iron mine",
+				"develop_cost": {"iron": 1},
+				"construct_cost": {"iron": 20},
+				"production": {"iron": 1},
+				"id": "iron_1",
+				"requires_previous_technology": true
+			},
+			{
+				"text": "[b]$name$[/b]\n\nExtracts iron from the planet's surface. Slightly upgraded production rate.",
+				"name": "Lv. 2 iron mine",
+				"develop_cost": {"iron": 1},
+				"construct_cost": {"iron": 20},
+				"production": {"iron": 5},
+				"id": "iron_2",
+				"requires_previous_technology": true
+			},
+			{
+				"text": "[b]$name$[/b]\n\nExtracts iron from the planet's surface. Significantly upgraded production rate.",
+				"name": "Lv. 3 iron mine",
+				"develop_cost": {"iron": 1},
+				"construct_cost": {"iron": 20},
+				"production": {"iron": 10},
+				"id": "iron_3",
+				"requires_previous_technology": true
+			}
+		],
+		"methane": [
+			{
+				"text": "[b]$name$[/b]\n\nFilters methane gas fron the planet's atmosphere. Standard-performance installation.",
+				"name": "Lv. 1 methane filter",
+				"develop_cost": {"methane": 1},
+				"construct_cost": {"methane": 500},
+				"production": {"methane": 1},
+				"id": "methane_1",
+				"requires_previous_technology": true
+			},
+			{
+				"text": "[b]$name$[/b]\n\nFilters methane gas fron the planet's atmosphere. Slightly upgraded production rate.",
+				"name": "Lv. 1 methane filter",
+				"develop_cost": {"methane": 1},
+				"construct_cost": {"methane": 1500},
+				"production": {"methane": 5},
+				"id": "methane_2",
+				"requires_previous_technology": true
+			},
+			{
+				"text": "[b]$name$[/b]\n\nFilters methane gas fron the planet's atmosphere. Significantly upgraded production rate.",
+				"name": "Lv. 1 methane filter",
+				"develop_cost": {"methane": 1},
+				"construct_cost": {"methane": 2500},
+				"production": {"methane": 10},
+				"id": "methane_3",
+				"requires_previous_technology": true
+			}
+		],
+		"carbon": [
+			{
+				"text": "[b]$name$[/b]\n\nExtracts carbon from the planet's surface. Standard-performance installation.",
+				"name": "Lv. 1 carbon mine",
+				"develop_cost": {"iron": 1},
+				"construct_cost": {"iron": 20},
+				"production": {"carbon": 1},
+				"id": "carbon_1",
+				"requires_previous_technology": true
+			},
+			{
+				"text": "[b]$name$[/b]\n\nExtracts carbon from the planet's surface. Slightly upgraded production rate.",
+				"name": "Lv. 2 carbon mine",
+				"develop_cost": {"iron": 1},
+				"production": {"carbon": 5},
+				"id": "carbon_2",
+				"requires_previous_technology": true
+			},
+			{
+				"text": "[b]$name$[/b]\n\nExtracts carbon from the planet's surface. Significantly upgraded production rate.",
+				"name": "Lv. 3 carbon mine",
+				"develop_cost": {"iron": 1},
+				"production": {"carbon": 10},
+				"id": "carbon_3",
+				"requires_previous_technology": true
+			}
+		],
+		"ammonia": [
+			{
+				"text": "[b]$name$[/b]\n\nCombines small amounts of hydrogen and nitrogen to produce ammonia. Standard-performance installation.",
+				"name": "Lv. 1 ammonia factory",
+				"develop_cost": {},
+				"construct_cost": {"iron": 20},
+				"production": {"ammonia": 1},
+				"id": "ammonia_1",
+				"requires_previous_technology": true
+			},
+			{
+				"text": "[b]$name$[/b]\n\nCombines small amounts of hydrogen and nitrogen to produce ammonia. Slightly upgraded production rate.",
+				"name": "Lv. 2 ammonia factory",
+				"develop_cost": {"iron": 1},
+				"production": {"ammonia": 5},
+				"id": "ammonia_2",
+				"requires_previous_technology": true
+			},
+			{
+				"text": "[b]$name$[/b]\n\nCombines small amounts of hydrogen and nitrogen to produce ammonia. Significantly upgraded production rate.",
+				"name": "Lv. 3 ammonia factory",
+				"develop_cost": {"iron": 1},
+				"production": {"ammonia": 10},
+				"id": "ammonia_3",
+				"requires_previous_technology": true
+			}
+		],
+		"oxygen": [
+			{
+				"text": "[b]$name$[/b]\n\nFilters oxygen from the planet's atmosphere. Standard-performance installation.",
+				"name": "Lv. 1 oxygen filter",
+				"develop_cost": {},
+				"construct_cost": {"iron": 20},
+				"production": {"oxygen": 1},
+				"id": "oxygen_1",
+				"requires_previous_technology": true
+			},
+			{
+				"text": "[b]$name$[/b]\n\nFilters oxygen from the planet's atmosphere. Slightly upgraded production rate.",
+				"name": "Lv. 2 oxygen filter",
+				"develop_cost": {"iron": 1},
+				"production": {"oxygen": 5},
+				"id": "oxygen_2",
+				"requires_previous_technology": true
+			},
+			{
+				"text": "[b]$name$[/b]\n\nFilters oxygen from the planet's atmosphere. Significantly upgraded production rate.",
+				"name": "Lv. 3 oxygen filter",
+				"develop_cost": {"iron": 1},
+				"production": {"oxygen": 10},
+				"id": "oxygen_3",
+				"requires_previous_technology": true
+			}
+		],
+		"sulfur": [
+			{
+				"text": "[b]$name$[/b]\n\nExtracts sulfur from the planet's surface. Standard-performance installation.",
+				"name": "Lv. 1 sulfur mine",
+				"develop_cost": {},
+				"construct_cost": {"iron": 20},
+				"production": {"sulfur": 1},
+				"id": "sulfur_1",
+				"requires_previous_technology": true
+			},
+			{
+				"text": "[b]$name$[/b]\n\nExtracts sulfur from the planet's surface. Slightly upgraded production rate.",
+				"name": "Lv. 2 sulfur mine",
+				"develop_cost": {"iron": 1},
+				"production": {"sulfur": 5},
+				"id": "sulfur_2",
+				"requires_previous_technology": true
+			},
+			{
+				"text": "[b]$name$[/b]\n\nExtracts sulfur from the planet's surface. Significantly upgraded production rate.",
+				"name": "Lv. 3 sulfur mine",
+				"develop_cost": {"iron": 1},
+				"production": {"sulfur": 10},
+				"id": "sulfur_3",
+				"requires_previous_technology": true
+			}
+		],
+		"water": [
+			{
+				"text": "[b]$name$[/b]\n\nPumps water from below the surface. Standard-performance installation.",
+				"name": "Lv. 1 water pump",
+				"develop_cost": {},
+				"construct_cost": {"iron": 20},
+				"production": {"water": 1},
+				"id": "water_1",
+				"requires_previous_technology": true
+			},
+			{
+				"text": "[b]$name$[/b]\n\nPumps water from below the surface. Slightly upgraded production rate.",
+				"name": "Lv. 2 water pump",
+				"develop_cost": {"iron": 1},
+				"production": {"water": 5},
+				"id": "water_2",
+				"requires_previous_technology": true
+			},
+			{
+				"text": "[b]$name$[/b]\n\nPumps water from below the surface. Significantly upgraded production rate.",
+				"name": "Lv. 3 water pump",
+				"develop_cost": {"iron": 1},
+				"production": {"water": 10},
+				"id": "water_3",
+				"requires_previous_technology": true
+			}
+		],
+	}	
 }

@@ -37,7 +37,7 @@ func explode_point(point: Position2D):
 	
 	self.add_child(initial_explosion)
 	initial_explosion.z_index = 99
-	initial_explosion.play(Global.random_item(Global.current_world.rng, initial_explosion.frames.get_animation_names()))
+	initial_explosion.play(Global.random_item(Global.rng, initial_explosion.frames.get_animation_names()))
 	
 	var flame = AnimatedSprite.new()
 	flame.frames = flame_animations
@@ -47,7 +47,7 @@ func explode_point(point: Position2D):
 
 	self.add_child(flame)
 	initial_explosion.z_index = 99
-	flame.play(Global.random_item(Global.current_world.rng, flame.frames.get_animation_names()))
+	flame.play(Global.random_item(Global.rng, flame.frames.get_animation_names()))
 	
 	yield(initial_explosion, "animation_finished")
 	initial_explosion.queue_free()

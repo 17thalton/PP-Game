@@ -68,6 +68,13 @@ func on_interact():
 		$Visual/Menu.process_display()
 
 func _process(delta):
+	
+	for technology in Global.current_world_data["planets"][Global.current_world.planets.find(self)]["constructed_technology"]:
+		if "production" in technology.keys():
+			for resource in technology["production"].keys():
+				Global.set_resource(resource, technology["production"][resource], true)
+			
+	
 	if not orbit_stopped:
 		self.global_rotation_degrees += delta * self.orbit_speed
 		$Visual.global_rotation_degrees = 0
@@ -115,7 +122,6 @@ func focus_self():
 	self.global_rotation_degrees += duration * self.orbit_speed  # Rotate the planet by the duration
 	destination = $Visual.global_position  # Get the sprite's position at that rotation
 	self.global_rotation_degrees -= duration * self.orbit_speed  # Revert the planet rotation to the original
-	# This is a somewhat hacky solution, but doing this with a trig function instead wasn't accurate for some reason
 	
 	$Tween.interpolate_property($Visual/Camera2D, "global_position", $Visual/Camera2D.global_position, destination + position_offset, duration, Tween.TRANS_SINE, Tween.EASE_IN_OUT)
 	$Tween.interpolate_property($Visual/Camera2D, "zoom", $Visual/Camera2D.zoom, zoom * Global.zoom_modifier, duration,Tween.TRANS_SINE, Tween.EASE_IN_OUT)
@@ -152,14 +158,14 @@ func set_discovered_status(discovered: bool):
 		$Visual/HoverLabel.bbcode_text = "[center]Undiscovered[/center]"
 
 func distance_to_planet(to_planet):
-	var distance = 0
-	for planet in Global.current_world.planets:
-		if distance == 0:
-			if planet == self or planet == to_planet:
-				distance = 1
-		else:
-			if planet == self or planet == to_planet:
-				break
-			distance += 1
-			
-	return distance
+#	var distance = 0
+#	for planet in Global.current_world.planets:
+#		if distance == 0:
+#			if planet == self or planet == to_planet:
+#				distance = 1
+#		else:
+#			if planet == self or planet == to_planet:
+#				break
+#			distance += 1
+#
+	return abs(Global.current_world.planets.find(to_planet) - Global.current_world.planets.find(self))

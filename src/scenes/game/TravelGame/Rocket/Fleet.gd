@@ -5,7 +5,7 @@ var drone_deploy_percentage = 0.03
 
 var drone = null
 
-var max_speed = 150
+var max_speed = 500
 var velocity = 0
 var destination_object: Control
 
@@ -28,8 +28,8 @@ func _physics_process(delta):
 		stages.launching:
 			
 			
-			var remaining_distance = self.global_position - destination_object.rect_global_position
-			remaining_distance = self.global_position.distance_to(destination_object.rect_global_position)
+			var remaining_distance = self.global_position.distance_to(destination_object.rect_global_position)
+			
 #			remaining_distance = remain
 #			remaining_distance = min(abs(remaining_distance.x), abs(remaining_distance.y))
 			

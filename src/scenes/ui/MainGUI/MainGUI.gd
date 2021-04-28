@@ -10,12 +10,20 @@ enum MenuState {TRANSITIONING, NONE, OPEN}
 var menu_status = MenuState.NONE
 var open_menu = null
 
-func update_resource(resource_name: String, value: int):
+func update_resource(resource_name: String, value = null):
 	
 	resource_name = resource_name.to_lower()
 	if resource_name == "max":
+		
+		if value == null:
+			value = Global.current_world.resource_cap
+		
 		$Visual/ResourceList/Max.bbcode_text = "[center]Storage cap: " + str(value) + "[/center]"
 	else:
+		
+		if value == null:
+			value = Global.current_world.resources[resource_name]
+		
 		resource_nodes[resource_name].get_child(1).bbcode_text = "[right]" + str(value) + "[/right]"
 	
 
@@ -46,8 +54,8 @@ func _ready():
 		
 		resource_nodes[resource] = new_resource.get_node("Container")
 		
-		update_resource(resource, Global.current_world.resources[resource])
-		update_resource("max", Global.current_world.resource_cap)
+		update_resource(resource)
+		update_resource("max")
 
 func _exit_tree():
 	if Global.overlay_gui == self:
@@ -86,7 +94,11 @@ func _process(_delta):
 			var new_technology = DevelopmentInfo.instance()
 			Global.current_world_data["developing_technology"][technology]["node"] = new_technology
 			
-			new_technology.get_node("Name").text = str(Global.current_world_data["developing_technology"][technology]["short_name"]).capitalize()
+			if "short_name" in Global.current_world_data["developing_technology"][technology]:
+				new_technology.get_node("Name").text = str(Global.current_world_data["developing_technology"][technology]["short_name"]).capitalize()
+			else:
+				new_technology.get_node("Name").text = str(Global.current_world_data["developing_technology"][technology]["name"]).capitalize()
+			
 			new_technology.get_node("Amount").bbcode_text = "[right]" + str(int(Global.current_world_data["developing_technology"][technology]["timer"].time_left)) + " seconds[/right]"
 			new_technology.rect_size.x = $Visual/DevelopingTechnologies/ScrollContainer/Container.rect_size.x
 	
@@ -147,7 +159,7 @@ func menu_button_pressed(button):
 	if show_menu:
 		
 		if resource != null:
-			menu.set_resource(resource)
+			menu.set_resource(resource, false)
 		
 		menu_status = MenuState.TRANSITIONING
 		yield(show_menu(menu), "completed")

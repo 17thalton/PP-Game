@@ -35,33 +35,28 @@ __meta__ = {
 }
 
 [node name="ColumnContainer" type="HBoxContainer" parent="."]
-anchor_right = 1.0
 margin_left = 64.0
 margin_top = 64.0
-margin_right = 1200.0
-margin_bottom = 896.0
+margin_right = 124.0
+margin_bottom = 64.0
 custom_constants/separation = 30
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
 [node name="Column" parent="ColumnContainer" instance=ExtResource( 3 )]
-margin_right = 358.0
-margin_bottom = 832.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 
 [node name="Column2" parent="ColumnContainer" instance=ExtResource( 3 )]
-margin_left = 388.0
-margin_right = 746.0
-margin_bottom = 832.0
+margin_left = 30.0
+margin_right = 30.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 
 [node name="Column3" parent="ColumnContainer" instance=ExtResource( 3 )]
-margin_left = 776.0
-margin_right = 1136.0
-margin_bottom = 832.0
+margin_left = 60.0
+margin_right = 60.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 

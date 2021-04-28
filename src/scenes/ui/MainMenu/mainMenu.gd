@@ -20,18 +20,10 @@ func _ready():
 	
 	# Connect functions to menu buttons
 	$btn_new.connect("pressed", self, "btnNewGame")
-	$btn_load.connect("pressed", self, "btnLoadGame")
-	$btn_options.connect("pressed", self, "btnOptions")
 	$btn_exit.connect("pressed", self, "btnExit")
 
 func btnNewGame():
 	get_tree().change_scene("res://src/scenes/ui/MainMenu/NewGameMenu/main.tscn")
-
-func btnLoadGame():
-	get_tree().change_scene("res://src/scenes/ui/MainMenu/LoadGameMenu/main.tscn")
-	
-func btnOptions():
-	get_tree().change_scene("res://src/scenes/ui/MainMenu/OptionsMenu/main.tscn")
 	
 func btnExit():
 	print("Quitting...")

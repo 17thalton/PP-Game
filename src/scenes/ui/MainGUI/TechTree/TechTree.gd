@@ -40,41 +40,71 @@ func technology_pressed(category: String, technology: Dictionary):
 			null, 
 			null, "Ok", 2.0)
 		return
+	elif technology["requires_previous_technology"]:
+		var index = Global.techtree_data["columns"][category].find(technology)
+		if index > 0:
+			if not Global.techtree_data["columns"][category][index - 1]["id"] in Global.current_world_data["developed_technology"]:
+				$ConfirmationDialog.show_popup(
+					"[center]That technology cannot be developed[/center]", 
+					"[center]The previous level technology must be developed in order to progress to this level[/center]", 
+					null, "Ok", 2.0)
+				return
 	
 	var cost_text = ""
-	if len(technology["develop_cost"].keys()) == 0:
+	var not_enough_resources = false
+	if technology["develop_cost"] == {}:
 		cost_text = "\nNo development cost"
 	else:
 		cost_text = "Required resources:\n\n"
 		for resource in technology["develop_cost"].keys():
+
+			if technology["develop_cost"][resource] > Global.current_world.resources[resource]:
+				not_enough_resources = true
+			
 			cost_text = cost_text + " •  " + str(technology["develop_cost"][resource]) + "  " + resource.capitalize() + "\n"
+	
+		if not_enough_resources:
+			cost_text = cost_text + "\nYou do not have enough resources"
 	
 	if "develop_time" in technology.keys():
 		cost_text = cost_text + "\nTime to develop: " + str(round(technology["develop_time"]/6)/10) + " minutes"
 	
 	$ConfirmationDialog.instance_id = technology["id"]
-	$ConfirmationDialog.show_popup(
-		"[center]Develop this technology?[/center]", 
-		"[center][b]" + technology["name"] + "[/b]\n- - - - - - - - -\n" + cost_text + "[/center]", 
-		"Cancel", "Develop")
+	if not_enough_resources:
+		$ConfirmationDialog.show_popup(
+			"[center]Cannot develop this technology[/center]", 
+			"[center][b]" + technology["name"] + "[/b]\n- - - - - - - - -\n" + cost_text + "[/center]", 
+			null, "OK")
+	else:
+		$ConfirmationDialog.show_popup(
+			"[center]Develop this technology?[/center]", 
+			"[center][b]" + technology["name"] + "[/b]\n- - - - - - - - -\n" + cost_text + "[/center]", 
+			"Cancel", "Develop")
 	
 	yield($ConfirmationDialog, "button_pressed")
 	yield($ConfirmationDialog/AnimationPlayer, "animation_finished")
 	
-	if $ConfirmationDialog.right_button_last_pressed:
+	if $ConfirmationDialog.instance_id != technology["id"]:
+		return
+	
+	if $ConfirmationDialog.right_button_last_pressed and not not_enough_resources:
 		
-		var content = null
-		match technology["type"]:
-			"develop": 
-				Global.start_technology_development(technology)
-				content = "Development of the technology has started. It will take " + str(round(technology["develop_time"]/6)/10) + " minutes to complete."
-			"construct": 
-				Global.current_world.developed_technology.append(technology["id"])
-				content = "The technology has been constructed"
+		for resource in technology["develop_cost"].keys():
+			Global.set_resource(resource, -technology["develop_cost"][resource], true)
+		
+		var content = ""
+		if "develop_time" in technology.keys():
+			Global.start_technology_development(technology)
+			content = "Development of the technology has started. It will take " + str(round(technology["develop_time"]/6)/10) + " minutes to complete."
+		else:
+			Global.current_world_data["developed_technology"].append(technology["id"])
+			content = "The technology has been constructed"
+			Global.apply_technology(technology["id"])
 		
 		$ConfirmationDialog.show_popup(
 			"", 
 			"[center]" + content + "[/center]",
 			null, "Yes")
 
+	$ConfirmationDialog.instance_id = null
 	$ConfirmationDialog.right_button_last_pressed = null

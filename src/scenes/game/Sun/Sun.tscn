@@ -95,10 +95,10 @@ z_as_relative = false
 
 [node name="InteractButton" type="Button" parent="Visual"]
 modulate = Color( 1, 1, 1, 0 )
-margin_left = -50.0
-margin_top = -50.0
-margin_right = 50.0
-margin_bottom = 50.0
+margin_left = -256.0
+margin_top = -208.0
+margin_right = 296.0
+margin_bottom = 248.0
 focus_mode = 0
 enabled_focus_mode = 0
 __meta__ = {
